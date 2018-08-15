@@ -1,0 +1,32 @@
+##ignore this file##
+/target/
+.classpath
+.project
+.settings
+
+##class file##
+*.com  
+*.class  
+*.dll  
+*.exe  
+*.o  
+*.so
+
+##compression file##
+*.7z  
+*.dmg  
+*.gz  
+*.iso  
+*.jar  
+*.rar  
+*.tar  
+*.zip  
+*.via
+*.tmp
+*.err
+
+##IntelliJ IDEA##
+.idea
+*.iws
+*.iml
+*.ipr

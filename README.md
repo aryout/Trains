@@ -14,7 +14,7 @@ The purpose of this problem is to help the railroad provide its customers with i
 
 In particular, you will compute the distance along a certain route, the number of different routes between two towns, and the shortest route between two towns.
 
-更多的项目说明请参考 './陈道鹏_作业_Trains.pdf'
+更多的项目说明请参考 '.\陈道鹏_作业_Trains.pdf'
 
 #### 安装说明
 
@@ -22,7 +22,6 @@ In particular, you will compute the distance along a certain route, the number o
 ```java
 > mvn clean
 ```
-
 成功之后, 再进行编译:
 
 ```java
@@ -37,7 +36,6 @@ In particular, you will compute the distance along a certain route, the number o
 
 单元测试执行完毕, 你可以通过运行以下两种方式来运行程序:
 
-如果你是Windows平台：
 Windows CMD 下
 ```java
 > mvn exec:exec -Dexec.executable="java" -Dexec.args=" -classpath %classpath com.faceyee.App [your-Graph-input-data-file-path]"
@@ -57,7 +55,7 @@ please type graph data path:
 
 在题目中的文档中有一套测试用例, 可以在项目根目录中找到;
 ```
-> ./..
+> .\graph.txt
 ```
 输出包含Graph构造语句和执行结果
 
@@ -85,7 +83,46 @@ Output #10: 7
 
 #### 目录结构
 ```java
-
+│  .gitignore
+│  graph.txt                                        //  测试用例文件
+│  pom.xml                                          // pom.xml 配置文件
+│  README.md                                        //  说明文件
+│  陈道鹏_作业_Trains.pdf                            //  原题说明
+│  
+└─src
+    ├─main
+    │  └─java
+    │      └─com
+    │          └─faceyee
+    │              │  App.java                     //  程序入口文件
+    │              │  
+    │              ├─entity
+    │              │      City.java                //  城市类
+    │              │      Graph.java               //  地图类
+    │              │      
+    │              ├─service
+    │              │      StraightRoad.java        //  深搜直达路径
+    │              │      TrainRoad.java           //  路径处理结果
+    │              │      
+    │              └─utils
+    │                      InputGraph.java          //  测试输入处理
+    │                      
+    └─test                                         //  Junit测试文件夹
+        └─java
+            └─com
+                └─faceyee
+                    │  AppTest.java                 //  入口参数单元测试
+                    │  
+                    ├─entity
+                    │      CityTest.java            //  城市构造的单元测试
+                    │      GraphTest.java           //  地图构造单元测试
+                    │      
+                    ├─service
+                    │      StraightRoadTest.java     //  直达路径单元测试
+                    │      TrainRoadTest.java        //  路径结果返回单元测试
+                    │      
+                    └─utils
+                            InputGraphTest.java       //  测试文件输入验证单元测试
 ```
 
 #### 作者
