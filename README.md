@@ -1,7 +1,8 @@
 ## ThoughtWorks Homework
 
 
-#### 背景介绍
+#### 项目介绍
+```
 The local commuter railroad services a number of towns in Kiwiland.
 
 Because of monetary concerns, all of the tracks are 'one-way.'
@@ -15,10 +16,11 @@ The purpose of this problem is to help the railroad provide its customers with i
 In particular, you will compute the distance along a certain route, the number of different routes between two towns, and the shortest route between two towns.
 
 更多的项目说明请参考 '.\陈道鹏_作业_Trains.pdf'
+```
+Train是一个基于Java语言开发的，由Maven构建的项目，所以要运行该项目，需要依赖JRE和Maven，请保证您机器上已经运行它们。
+#### 构建说明
 
-#### 安装说明
-
-直接下载整个目录文件, 并且进入目录根目录, 请确保无二进制文件:
+解压缩项目压缩文件, 进入项目根目录（pom.xml所在目录）, 确保无二进制文件:
 ```java
 > mvn clean
 ```
@@ -27,9 +29,49 @@ In particular, you will compute the distance along a certain route, the number o
 ```java
 > mvn compile
 ```
-也可以直接执行test命令来执行单元测试用例:
+也可以直接执行test命令执行单元测试用例:
 ```java
 > mvn test
+```
+输出如下:
+```cmd
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.faceyee.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s - in com.faceyee.AppTest
+[INFO] Running com.faceyee.entity.CityTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.entity.CityTest
+[INFO] Running com.faceyee.entity.GraphTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.entity.GraphTest
+[INFO] Running com.faceyee.service.StraightRoadTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.service.StraightRoadTest
+[INFO] Running com.faceyee.service.TrainRoadTest
+Output #1: 9
+Output #2: 5
+Output #3: 13
+Output #4: 22
+Output #5: NO SUCH ROUTE
+Output #6: 2
+Output #7: 3
+Output #8: 9
+Output #9: 9
+Output #10: 7
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in com.faceyee.service.TrainRoadTest
+[INFO] Running com.faceyee.utils.InputGraphTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in com.faceyee.utils.InputGraphTest
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 11.022 s
+[INFO] Finished at: 2018-08-16T16:52:12+08:00
+[INFO] Final Memory: 16M/168M
+[INFO] ------------------------------------------------------------------------
 ```
 
 #### 使用说明
@@ -57,7 +99,7 @@ please type graph data path:
 ```
 > .\graph.txt
 ```
-输出包含Graph构造语句和执行结果
+此时输出包含Graph构造语句和执行结果
 
 ```cmd
 Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
@@ -78,7 +120,6 @@ Output #10: 7
 [INFO] Finished at: 2018-08-15T16:55:16+08:00
 [INFO] Final Memory: 11M/155M
 [INFO] ------------------------------------------------------------------------
-
 ```
 
 #### 目录结构
@@ -125,7 +166,10 @@ Output #10: 7
                             InputGraphTest.java       //  测试文件输入验证单元测试
 ```
 
-#### 作者
+* **实体层**：根据输入的城市加权路径图，构建城市节点和地图模型，城市和地图是组合模式。
+* **业务层**：地图缓存自身区域的所有城市环路，两点间的所有直达线路按需生成。每个路径处理函数使用同一个地图对象。
+* **工具层**：地图输入处理，每一行代表一个地图对象。
+#### 联系人
 ```java
 @Author: 陈道鹏
 @E-Mail: daopeng.chen@outlook.com
