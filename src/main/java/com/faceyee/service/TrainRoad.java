@@ -80,7 +80,7 @@ public class TrainRoad {
         if (line.contains("maximum")){
             int times = RexText.returnDig(line);
             for (int i = 2; i <= times; i++) {
-                res += nDRWSActual(times, start, end);
+                res += nDRWSActual(i, start, end);
             }
         }else {
             int times = RexText.returnDig(line);
@@ -98,14 +98,27 @@ public class TrainRoad {
         int res = 0;
         if (start == end){
             String sta = String.valueOf((char) (start+'A'));
+            int temp = 0; // 含有该城市的环的个数
             for (String s: cycleCitys
                  ) {
+                if (s.contains(sta) && s.length() < times){
+                    temp++;
+                }else if (s.contains(sta) && s.length() == times){
+                    res++;
+                }
+            }
+            int[] cycleLength = new int[temp];
+            int i = 0;
+            for (String s: cycleCitys
+                    ) {
                 if (s.contains(sta)){
-                    if (s.length() == times){
-                        res++;
+                    if (s.contains(sta) && s.length() < times){
+                        cycleLength[i] = s.length();
                     }
                 }
             }
+            res += count(times, cycleLength);
+
         }else {
             for (String s: roads
                     ) {
@@ -122,6 +135,17 @@ public class TrainRoad {
             }
         }
         return res;
+    }
+
+    private int count(int n, int[]v) {
+        int[] d= new int[n+1];
+        d[0]=1;
+        for (int aV : v) {
+            for (int j = aV; j <= n; j++) {
+                d[j] += d[j - aV];
+            }
+        }
+        return d[n];
     }
 
     /**

@@ -4,9 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by 97390 on 8/16/2018.
+ * Util to handle execute line， return some value
+ *
  */
 public class RexText {
+
+    /**
+     * Return the number parameter
+     *@return
+     */
     public static int returnDig(String line){
         String pattern = "\\d+";
         Pattern r = Pattern.compile(pattern);
@@ -14,11 +20,15 @@ public class RexText {
 
         int res = 0;
         while (m.find( )) {
-            res = Integer.parseInt(m.group()); // 去掉可能的第一个元素，即第几个逻辑的‘index’
+            res = Integer.parseInt(m.group());
         }
         return res;
     }
 
+    /**
+     * Return the startCity and endCity
+     *@return
+     */
     public static char[] returnChar(String line){
         char[] city = new char[2];
         String pattern = "\\b[A-Z]\\b";
@@ -32,6 +42,10 @@ public class RexText {
         return city;
     }
 
+    /**
+     * Return the route of given
+     *@return
+     */
     public static String returnString(String line){
         String pattern = "\\b([A-Z](-)?)+\\b";
         Pattern r = Pattern.compile(pattern);

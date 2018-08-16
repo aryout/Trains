@@ -41,11 +41,11 @@ Train是一个基于Java语言开发的，由Maven构建的项目，所以要运
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.faceyee.AppTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.109 s - in com.faceyee.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.065 s - in com.faceyee.AppTest
 [INFO] Running com.faceyee.entity.CityTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.entity.CityTest
 [INFO] Running com.faceyee.entity.GraphTest
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.entity.GraphTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.faceyee.entity.GraphTest
 [INFO] Running com.faceyee.service.StraightRoadTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.service.StraightRoadTest
 [INFO] Running com.faceyee.service.TrainRoadTest
@@ -59,11 +59,11 @@ Output #8: 9
 Output #9: 9
 Output #6: 2
 Output #7: 3
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in com.faceyee.service.TrainRoadTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in com.faceyee.service.TrainRoadTest
 [INFO] Running com.faceyee.utils.InputGraphTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in com.faceyee.utils.InputGraphTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.faceyee.utils.InputGraphTest
 [INFO] Running com.faceyee.utils.RexTextTest
-[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.utils.RexTextTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in com.faceyee.utils.RexTextTest
 [INFO]
 [INFO] Results:
 [INFO]
@@ -72,7 +72,7 @@ Output #7: 3
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 7.965 s
+[INFO] Total time: 9.149 s
 ```
 
 #### 使用说明
@@ -98,11 +98,9 @@ please type graph data path:
 
 ```
 Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
-Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE6
-Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE5
-Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE4
+Graph: AB5, AC4, AD8, BE8, BC6, EF5, GF2, CG3, GB6, DF3
 ```
-题目中含有一套测试用例, 可以在项目根目录中找到;
+题目中含有一套测试用例, 本人也加了一套。可以在项目根目录中找到;
 ```
 > .\graph.txt
 ```
@@ -122,10 +120,21 @@ Output #7: 3
 Output #8: 9
 Output #9: 9
 Output #10: 7
+Graph: AB5, AC4, AD8, BE8, BC6, EF5, GF2, CG3, GB6, DF3
+Output #1: 11
+Output #2: 8
+Output #3: NO SUCH ROUTE
+Output #4: NO SUCH ROUTE
+Output #5: NO SUCH ROUTE
+Output #6: 1
+Output #7: 1
+Output #8: 4
+Output #9: 15
+Output #10: 1
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 14.436 s
+[INFO] Total time: 9.659 s
 ```
 
 #### 目录结构
