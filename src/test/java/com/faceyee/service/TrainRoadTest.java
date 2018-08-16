@@ -16,29 +16,29 @@ public class TrainRoadTest {
     }
 
     @Test
-    public void fun2() throws Exception {
-        Assert.assertEquals(2, testTrainRoad.fun2("6.The number of trips starting at C and ending at C with a maximum of 3 stops."));
-        Assert.assertEquals(3, testTrainRoad.fun2("7.The number of trips starting at A and ending at C with exactly 4 stops."));
+    public void distanceOfSomeCity() throws Exception {
+        Assert.assertEquals("9", testTrainRoad.distanceOfSomeCity("1.The distance of the route A-B-C."));
+        Assert.assertEquals("5", testTrainRoad.distanceOfSomeCity("2.The distance of the route A-D."));
+        Assert.assertEquals("13", testTrainRoad.distanceOfSomeCity("3.The distance of the route A-D-C."));
+        Assert.assertEquals("22", testTrainRoad.distanceOfSomeCity("4.The distance of the route A-E-B-C-D."));
+        Assert.assertEquals("NO SUCH ROUTE", testTrainRoad.distanceOfSomeCity("5.The distance of the route A-E-D."));
     }
 
     @Test
-    public void fun3() throws Exception {
-        Assert.assertEquals(9, testTrainRoad.fun3("8.The length of the shortest route (in terms of distance to travel) from A to C."));
-        Assert.assertEquals(9, testTrainRoad.fun3("9.The length of the shortest route (in terms of distance to travel) from B to B."));
+    public void numberOfDifferentRoadsWithStops() throws Exception {
+        Assert.assertEquals(2, testTrainRoad.numberOfDifferentRoadsWithStops("6.The number of trips starting at C and ending at C with a maximum of 3 stops."));
+        Assert.assertEquals(3, testTrainRoad.numberOfDifferentRoadsWithStops("7.The number of trips starting at A and ending at C with exactly 4 stops."));
     }
 
     @Test
-    public void fun1() throws Exception {
-        Assert.assertEquals("9", testTrainRoad.fun1("1.The distance of the route A-B-C."));
-        Assert.assertEquals("5", testTrainRoad.fun1("2.The distance of the route A-D."));
-        Assert.assertEquals("13", testTrainRoad.fun1("3.The distance of the route A-D-C."));
-        Assert.assertEquals("22", testTrainRoad.fun1("4.The distance of the route A-E-B-C-D."));
-        Assert.assertEquals("NO SUCH ROUTE", testTrainRoad.fun1("5.The distance of the route A-E-D."));
+    public void lengthOfShortestRoute() throws Exception {
+        Assert.assertEquals(9, testTrainRoad.lengthOfShortestRoute("8.The length of the shortest route (in terms of distance to travel) from A to C."));
+        Assert.assertEquals(9, testTrainRoad.lengthOfShortestRoute("9.The length of the shortest route (in terms of distance to travel) from B to B."));
     }
 
     @Test
-    public void fun4() throws Exception {
-        Assert.assertEquals(7, testTrainRoad.fun4("10.The number of different routes from C to C with a distance of less than 30. "));
+    public void numberOfDifferentRoadsWithDistance() throws Exception {
+        Assert.assertEquals(7, testTrainRoad.numberOfDifferentRoadsWithDistance("10.The number of different routes from C to C with a distance of less than 30."));
     }
 
 }

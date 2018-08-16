@@ -1,11 +1,13 @@
 package com.faceyee.service;
 
 import com.faceyee.entity.Graph;
+import com.faceyee.utils.RexText;
 
 import java.util.*;
 
 /**
- * Created by 97390 on 8/13/2018.
+ * Base graph object, help the railroad provide its customers with information about the routes.
+ * particular some Typical route
  */
 public class TrainRoad {
     private StraightRoad straightRoad ;
@@ -14,46 +16,61 @@ public class TrainRoad {
     private HashSet<String> roads ;
     private HashSet<String> cycleCitys ;
 
-    private int func4res = 0;
-    private int fun4weight = 30;
-    private HashSet<String> func4roads = new HashSet<>();
+    /* nDRWDres, nDRWDweight, nDRWDroads are for numberOfDifferentRoadsWithDistance function */
+    private int nDRWDres = 0; // result of numberOfDifferentRoadsWithDistance function
+    private int nDRWDweight = 30; // parameter of numberOfDifferentRoadsWithDistance function
+    private HashSet<String> nDRWDroads = new HashSet<>(); // store the road of numberOfDifferentRoadsWithDistance function, provide to print
 
+    /**
+     * Solution base graph, both are single case
+     *@param graphConstruct  graph-structure input string
+     */
     public  TrainRoad (String graphConstruct){
         this.graph = new Graph(graphConstruct);
         this.straightRoad = new StraightRoad(graph);
         this.cycleCitys = graph.getCycleCitys();
     }
 
-    public void  fun(){
+    /**
+     * Provide a public callable function that handling 10 typical routes on homework.
+     * But, you can add or alter the City in given route in function.
+     * Or, call specific function directly.
+     */
+    public void  solution(){
         String[] outPut = new String[10];
         outPut[0] = "1.The distance of the route A-B-C.";
-        fun1(outPut[0]);
+        distanceOfSomeCity(outPut[0]);
         outPut[1] = "2.The distance of the route A-D.";
-        fun1(outPut[1]);
+        distanceOfSomeCity(outPut[1]);
         outPut[2] = "3.The distance of the route A-D-C.";
-        fun1(outPut[2]);
+        distanceOfSomeCity(outPut[2]);
         outPut[3] = "4.The distance of the route A-E-B-C-D.";
-        fun1(outPut[3]);
+        distanceOfSomeCity(outPut[3]);
         outPut[4] = "5.The distance of the route A-E-D.";
-        fun1(outPut[4]);
+        distanceOfSomeCity(outPut[4]);
+
         outPut[5] = "6.The number of trips starting at C and ending at C with a maximum of 3 stops.";
-        fun2(outPut[5]);
+        numberOfDifferentRoadsWithStops(outPut[5]);
         outPut[6] = "7.The number of trips starting at A and ending at C with exactly 4 stops.";
-        fun2(outPut[6]);
+        numberOfDifferentRoadsWithStops(outPut[6]);
+
         outPut[7] = "8.The length of the shortest route (in terms of distance to travel) from A to C.";
-        fun3(outPut[7]);
+        lengthOfShortestRoute(outPut[7]);
         outPut[8] = "9.The length of the shortest route (in terms of distance to travel) from B to B.";
-        fun3(outPut[8]);
+        lengthOfShortestRoute(outPut[8]);
+
         outPut[9] = "10.The number of different routes from C to C with a distance of less than 30.";
-        fun4(outPut[9]);
+        numberOfDifferentRoadsWithDistance(outPut[9]);
     }
 
 
-
-    public int fun2(String line){
-        // The number of trips starting at C and ending at C with a maximum of 3 stops
-        char startCity = line.charAt(line.indexOf("starting at ")+12);
-        char endCity = line.charAt(line.indexOf("ending at ")+10);
+    /**
+     * Return the number of trips base given startCity and endCity even with stops-number(maximum or exactly) in the trip
+     *@param line  demand about the routes.like "5.The number of trips starting at C and ending at C with a maximum of 3 stops.".
+     */
+    public int numberOfDifferentRoadsWithStops (String line){
+        char startCity = RexText.returnChar(line)[0];
+        char endCity = RexText.returnChar(line)[1];
         int start = startCity - 'A';
         int end = endCity - 'A';
         if (start != end){
@@ -61,22 +78,25 @@ public class TrainRoad {
         }
         int res = 0;
         if (line.contains("maximum")){
-            int times = Integer.parseInt(line.substring(line.indexOf("maximum of ")+10, line.indexOf("stops")).trim());
+            int times = RexText.returnDig(line);
             for (int i = 2; i <= times; i++) {
-                res += fun2actual(times, start, end);
+                res += nDRWSActual(times, start, end);
             }
         }else {
-            int times = Integer.parseInt(line.substring(line.indexOf("exactly ")+7, line.indexOf("stops")).trim());
-            res = fun2actual(times, start, end);
+            int times = RexText.returnDig(line);
+            res = nDRWSActual(times, start, end);
         }
         int index = Integer.parseInt(line.substring(0,line.indexOf(".The")));
         System.out.printf("Output #%s: "+res, index);
         System.out.println();
         return res;
     }
-    private int fun2actual(int times, int start, int end){
+    /**
+     * The actual of numberOfDifferentRoadsWithStops function
+     */
+    private int nDRWSActual(int times, int start, int end){
         int res = 0;
-        if (start == end){ // 直接循环
+        if (start == end){
             String sta = String.valueOf((char) (start+'A'));
             for (String s: cycleCitys
                  ) {
@@ -87,9 +107,9 @@ public class TrainRoad {
                 }
             }
         }else {
-            for (String s: roads // 每条直达+可能的循环
+            for (String s: roads
                     ) {
-                if (s.length()-1 == times){// 寻找边数s.length()-1小于times
+                if (s.length()-1 == times){
                     res++;
                 }else if (s.length()-1 < times){
                     for (String cs:cycleCitys
@@ -104,14 +124,17 @@ public class TrainRoad {
         return res;
     }
 
-    public int fun3(String line){
-        // The length of the shortest route (in terms of distance to travel) from A to C.
-        char startCity = line.charAt(line.indexOf("from ")+5);
-        char endCity = line.charAt(line.lastIndexOf("to ")+3);
+    /**
+     * Return the length of the shortest route(in terms of distance to travel) base given startCity and endCity
+     *@param line  demand about the routes.like "7.The length of the shortest route (in terms of distance to travel) from A to C.".
+     */
+    public int lengthOfShortestRoute(String line){
+        char startCity = RexText.returnChar(line)[0];
+        char endCity = RexText.returnChar(line)[1];
         int res = Integer.MAX_VALUE;
         int start = startCity - 'A';
         int end = endCity - 'A';
-        if (start == end){ // 直接循环
+        if (start == end){
             String sta = String.valueOf((char) (start+'A'));
             for (String s: cycleCitys
                     ) {
@@ -145,15 +168,18 @@ public class TrainRoad {
         return res;
     }
 
-    public String fun1(String line){
-        // The distance of the route A-B-C.
+    /**
+     * Return the distance of the given route
+     *@param line  demand about the routes.like "0.The distance of the route A-B-C.".
+     */
+    public String distanceOfSomeCity(String line){
         int res = 0;
         boolean isRoad = true;
-        String s = line.substring(line.indexOf("route ")+6).trim();
+        String road = RexText.returnString(line);
         int index = Integer.parseInt(line.substring(0,line.indexOf(".The")));
-        for (int i = 0; i < s.length()-2; i+=2) {
-            if (graph.getCityMat()[s.charAt(i)-'A'][s.charAt(i+2)-'A'] > 0){
-                res += graph.getCityMat()[s.charAt(i)-'A'][s.charAt(i+2)-'A'];
+        for (int i = 0; i < road.length()-2; i+=2) {
+            if (graph.getCityMat()[road.charAt(i)-'A'][road.charAt(i+2)-'A'] > 0){
+                res += graph.getCityMat()[road.charAt(i)-'A'][road.charAt(i+2)-'A'];
             }else {
                 System.out.printf("Output #%s: NO SUCH ROUTE", index);
                 System.out.println();
@@ -169,14 +195,17 @@ public class TrainRoad {
         return String.valueOf(res);
     }
 
-    public int fun4(String line){
-        // The number of different routes from C to C with a distance of less than 30.
-        char cycleStartCity = line.charAt(line.indexOf("from ")+5);
-        char cycleEndCity = line.charAt(line.indexOf("to ")+3);
-        int weight = Integer.parseInt(line.substring(line.indexOf("than ")+5,line.length()-2));
+    /**
+     * Return the number of different routes base given startCity and endCity even with a maximum distance
+     *@param line  demand about the routes.like "9.The number of different routes from C to C with a distance of less than 30.".
+     */
+    public int numberOfDifferentRoadsWithDistance(String line){
+        char cycleStartCity = RexText.returnChar(line)[0];
+        char cycleEndCity = RexText.returnChar(line)[1];
+        nDRWDweight = RexText.returnDig(line);
         int res = 0;
         List<String> str = new ArrayList<String>();
-        if (cycleStartCity == cycleEndCity){ // 直接循环
+        if (cycleStartCity == cycleEndCity){
             String sta = String.valueOf((char) cycleStartCity);
             for (String s: cycleCitys
                     ) {
@@ -196,11 +225,15 @@ public class TrainRoad {
         return res;
     }
 
+    /**
+     * Calculate the total distance of each cycle road
+     *@param s  cycleRoad set
+     */
     private int preCircu(String[] s) {
         int n = s.length;
         Map<String, Integer> roadWeight = new HashMap<String, Integer>();
         Stack<Integer> temp = new Stack<Integer>();
-        Stack<String> func4ResRoad = new Stack<String>();
+        Stack<String> nDRWDresRoad = new Stack<String>();
         int weight;
         String road;
         for (String value : s) {
@@ -212,26 +245,33 @@ public class TrainRoad {
             roadWeight.put(road, weight);
         }
 
-        circu(roadWeight, s, temp, func4ResRoad);
-        return func4res;
+        circu(roadWeight, s, temp, nDRWDresRoad);
+        return nDRWDres;
     }
 
-    private void circu(Map roadWeight, String[] s, Stack<Integer> temp, Stack<String> func4ResRoad){
+    /**
+     * DFS base cycle road
+     *@param roadWeight  distance of road
+     *@param s  cycleRoad set
+     *@param temp  trace of valid roadWeight
+     *@param nDRWDresRoad  trace of valid road
+     */
+    private void circu(Map roadWeight, String[] s, Stack<Integer> temp, Stack<String> nDRWDresRoad){
         for (String value : s) {
-            if ((int) roadWeight.get(value) < fun4weight) {
-                func4res++;
-                fun4weight -= (int) roadWeight.get(value);
-                func4ResRoad.push(value);
+            if ((int) roadWeight.get(value) < nDRWDweight) {
+                nDRWDres++;
+                nDRWDweight -= (int) roadWeight.get(value);
+                nDRWDresRoad.push(value);
                 temp.push((int) roadWeight.get(value));
-                circu(roadWeight, s, temp, func4ResRoad);
+                circu(roadWeight, s, temp, nDRWDresRoad);
             }
         }
         if (!temp.empty()){
-            fun4weight += temp.pop();
+            nDRWDweight += temp.pop();
         }
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for(String path:func4ResRoad){
+        for(String path:nDRWDresRoad){
             if (first){
                 sb.append(path);
                 first = false;
@@ -239,14 +279,14 @@ public class TrainRoad {
                 sb.append(path.substring(1));
             }
         }
-        func4roads.add(sb.toString());
-        if (!func4ResRoad.empty()){
-            func4ResRoad.pop();
+        nDRWDroads.add(sb.toString());
+        if (!nDRWDresRoad.empty()){
+            nDRWDresRoad.pop();
         }
     }
 
-    private void displayFunc4Roads(){
-       for (String s:func4roads
+    private void displaynDRWDroads(){
+       for (String s:nDRWDroads
              ) {
             System.out.println(s);
         }

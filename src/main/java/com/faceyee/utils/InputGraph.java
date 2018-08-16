@@ -5,15 +5,20 @@ import com.faceyee.service.TrainRoad;
 import java.io.*;
 
 /**
- * Created by 97390 on 8/14/2018.
+ * Util to collect-in graph input data
+ *
  */
 public class InputGraph {
 
-    private  String inputFile;
+    private String inputFile;
     public InputGraph(String inputFile){
         this.inputFile = inputFile;
     }
 
+    /**
+     * One graph object per line input, transfer to TrainRoad handle
+     * @exception  if graph-input file not found
+     */
     public void exec() throws IOException {
         try {
             File f= new File(inputFile);
@@ -24,7 +29,7 @@ public class InputGraph {
             while ((read = bufread.readLine()) != null) {
                 System.out.println(read);
                 trainRoad = new TrainRoad(read);
-                trainRoad.fun();
+                trainRoad.solution();
             }
             bufread.close();
         }catch (FileNotFoundException e){

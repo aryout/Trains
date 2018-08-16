@@ -6,8 +6,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
 /**
+ * This is a homework for ThoughtWorks
  *
+ *@author chendaopeng
  *
  */
 public class App

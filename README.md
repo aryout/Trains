@@ -34,12 +34,14 @@ Train是一个基于Java语言开发的，由Maven构建的项目，所以要运
 > mvn test
 ```
 输出如下:
+
+请注意，由于单元测试的执行顺序随机，所以可能出现Output乱序，和预期结果顺序不一致。可以在下节'运行'时，比对他们的顺序会发现符合。
 ```cmd
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running com.faceyee.AppTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.067 s - in com.faceyee.AppTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.109 s - in com.faceyee.AppTest
 [INFO] Running com.faceyee.entity.CityTest
 [INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.entity.CityTest
 [INFO] Running com.faceyee.entity.GraphTest
@@ -52,25 +54,27 @@ Output #2: 5
 Output #3: 13
 Output #4: 22
 Output #5: NO SUCH ROUTE
-Output #6: 2
-Output #7: 3
+Output #10: 7
 Output #8: 9
 Output #9: 9
-Output #10: 7
-[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in com.faceyee.service.TrainRoadTest
+Output #6: 2
+Output #7: 3
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 s - in com.faceyee.service.TrainRoadTest
 [INFO] Running com.faceyee.utils.InputGraphTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in com.faceyee.utils.InputGraphTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in com.faceyee.utils.InputGraphTest
+[INFO] Running com.faceyee.utils.RexTextTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.faceyee.utils.RexTextTest
 [INFO]
 [INFO] Results:
 [INFO]
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0
 [INFO]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 11.022 s
-[INFO] Finished at: 2018-08-16T16:52:12+08:00
-[INFO] Final Memory: 16M/168M
+[INFO] Total time: 7.965 s
+[INFO] Finished at: 2018-08-16T21:19:21+08:00
+[INFO] Final Memory: 15M/178M
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -102,6 +106,8 @@ please type graph data path:
 此时输出包含Graph构造语句和执行结果
 
 ```cmd
+please type graph data path:
+.\graph.txt
 Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
 Output #1: 9
 Output #2: 5
@@ -116,9 +122,9 @@ Output #10: 7
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 6.313 s
-[INFO] Finished at: 2018-08-15T16:55:16+08:00
-[INFO] Final Memory: 11M/155M
+[INFO] Total time: 14.436 s
+[INFO] Finished at: 2018-08-16T21:21:54+08:00
+[INFO] Final Memory: 9M/155M
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -146,7 +152,8 @@ Output #10: 7
     │              │      TrainRoad.java           //  路径处理结果
     │              │      
     │              └─utils
-    │                      InputGraph.java          //  测试输入处理
+    │                      InputGraph.java          //  测试数据输入处理
+    │                      RexText.java             //  正则返回城市等
     │                      
     └─test                                         //  Junit测试文件夹
         └─java
@@ -164,11 +171,12 @@ Output #10: 7
                     │      
                     └─utils
                             InputGraphTest.java       //  测试文件输入验证单元测试
+                            RexTextTest.java          //  测试正则返回单元测试
 ```
 
 * **实体层**：根据输入的城市加权路径图，构建城市节点和地图模型，城市和地图是组合模式。
 * **业务层**：地图缓存自身区域的所有城市环路，两点间的所有直达线路按需生成。每个路径处理函数使用同一个地图对象。
-* **工具层**：地图输入处理，每一行代表一个地图对象。
+* **工具层**：地图输入处理，每一行代表一个地图对象；正则匹配处理，返回城市和参数。
 #### 联系人
 ```java
 @Author: 陈道鹏

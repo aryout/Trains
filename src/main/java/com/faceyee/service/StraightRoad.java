@@ -7,23 +7,34 @@ import java.util.HashSet;
 import java.util.Stack;
 
 /**
- * Created by 97390 on 8/13/2018.
+ * Determine if there are any pathways between two given cities and find out all direct pathways
+ *
  */
-public class StraightRoad { // 判断两个给定城市间有没有通路，并找出所有直达通路
+public class StraightRoad {
 
     private boolean isSR = true;
     private Graph graph;
     private int n;
     private int start, end;
-    private Stack<Integer> theStack = new Stack<>(); // 访问过程栈
-    private HashSet<String> s2eRoads = new HashSet<String>(); // 所有直达通路
+    private Stack<Integer> theStack = new Stack<>(); // Temp stack for find road
+    private HashSet<String> s2eRoads = new HashSet<String>(); // Temp direct access store between two citis, will update after next call
     private ArrayList<Integer> tempList;
 
+    /**
+     * StraightRoad base given Graph
+     *@param graph
+     */
     public StraightRoad(Graph graph) {
         this.graph = graph;
         this.n = graph.getN();
     }
 
+    /**
+     * Return the road set form startCity to endCity
+     * @param startCity
+     * @param endCity
+     * @return
+     */
     public HashSet<String> getRoads(char startCity, char endCity) {
         start = startCity - 'A';
         end = endCity - 'A';
@@ -34,7 +45,7 @@ public class StraightRoad { // 判断两个给定城市间有没有通路，并�
         if (!isConnectable(start, end)) {
             isSR = false;
         } else {
-            for (int j = 0; j < n; j++) { // 初始化每个节点的已访问节点列表
+            for (int j = 0; j < n; j++) { // init each city's allVisitedList
                 tempList = new ArrayList<Integer>();
                 for (int i = 0; i < n; i++) {
                     tempList.add(0);
@@ -49,7 +60,13 @@ public class StraightRoad { // 判断两个给定城市间有没有通路，并�
         }
         return s2eRoads;
     }
-    // 判断两个非相邻节点是否能连通
+
+    /**
+     * Return if this is atleast one road between startCity to endCity, if they're connectable
+     * @param start
+     * @param end
+     * @return
+     */
     private boolean isConnectable(int start, int end) {
         ArrayList<Integer> queue = new ArrayList<Integer>();
         ArrayList<Integer> visited = new ArrayList<Integer>();
@@ -73,32 +90,42 @@ public class StraightRoad { // 判断两个给定城市间有没有通路，并�
         return false;
     }
 
-    private void straightRoad(int start, int end) { // 深度优先
-        graph.getcityList()[start].setWasVisited(true); // 从start城市开始，它已经被访问过
-        theStack.push(start); // 加入栈
+    /**
+     * Start to find straightRoad when they're connectable
+     * @param start  startCity
+     * @param end  endCity
+     */
+    private void straightRoad(int start, int end) { // DFS
+        graph.getcityList()[start].setWasVisited(true);
+        theStack.push(start);
 
-        while (!theStack.isEmpty()) { // 开始探测下一个城市
+        while (!theStack.isEmpty()) { // next to its neighbor city
             int v = getUnvisitedCity(theStack.peek());
-            if (v == -1) { // 无下一个城市
+            if (v == -1) {
                 tempList = new ArrayList<Integer>();
                 for (int j = 0; j < n; j++) {
                     tempList.add(0);
                 }
                 graph.getcityList()[theStack.peek()]
-                        .setAllVisitedList(tempList);// 把栈顶节点访问过的节点链表清空，这个节点在这一轮下探中，已经结束使命
+                        .setAllVisitedList(tempList);
                 theStack.pop();
 
             } else {
                 theStack.push(v);
             }
 
-            if (!theStack.isEmpty() && end == theStack.peek()) { // 下探到终点城市才答应路径
+            if (!theStack.isEmpty() && end == theStack.peek()) { // yet get arrived to endCity, print one road
                 graph.getcityList()[end].setWasVisited(false);
-                printTheStackRoad(theStack); // 将之加入到s2eRoads中
+                printTheStackRoad(theStack);
                 theStack.pop();
             }
         }
     }
+
+    /**
+     * Store each straightRoad to s2eRoads
+     * @param theStack  traceStack in find straightRoad
+     */
     private void printTheStackRoad(Stack<Integer> theStack) {
         StringBuilder sb = new StringBuilder();
         for (Integer integer : theStack) {
@@ -110,17 +137,21 @@ public class StraightRoad { // 判断两个给定城市间有没有通路，并�
         }
     }
 
-    // 与节点v相邻，并且这个节点没有被访问到，并且这个节点不在栈中
+    /**
+     * Return  the next city which neighbor to currentCity(v) and, is unvisited, not place in the traceStack
+     * @param v  currentCity(v)
+     * @return
+     */
     private int getUnvisitedCity(int v) {
         ArrayList<Integer> arrayList = graph.getcityList()[v]
                 .getAllVisitedList();
 
         for (int j = 0; j < n; j++) {
             if (graph.getCityMat()[v][j] != 0 && arrayList.get(j) == 0
-                    && !theStack.contains(j)) { //相邻，没访问过，不在栈中
+                    && !theStack.contains(j)) {
 
                 graph.getcityList()[v].setVisited(j);
-                return j; // 返回该城市
+                return j; // return the goal city
             }
         }
         return -1;

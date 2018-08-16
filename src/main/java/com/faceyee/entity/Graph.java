@@ -2,30 +2,38 @@ package com.faceyee.entity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
- * Created by 97390 on 8/13/2018.
+ * Graph object, and it owns itself cycleCitys set
+ *
  */
-
 public class Graph {
 
-    private  City cityList[];  // 城市
-    private  int cityMat[][];
-    private  HashSet<String> cycleCitys = new HashSet<String>(); // 保存环
-    private ArrayList<Integer> trace = new ArrayList<Integer>(); // 寻找环
+    private  City cityList[];
+    private  int cityMat[][]; // Distance between two citis
+    private  HashSet<String> cycleCitys = new HashSet<String>(); // Graph owns all cycle roads, cuz it's final
+    private ArrayList<Integer> trace = new ArrayList<Integer>(); // Temp stack for find cycle road
     private int nCitys;
     private boolean hasCycle;
 
+    /**
+     * Graph constructor by given data
+     *
+     *@param graph graph-structure input string
+     *
+     */
     public Graph(String graph) {
-        cityList = new City[26]; // 顶点数组
+        ArrayList<City> citis =  new ArrayList<City>();
         if (graph.startsWith("Graph:")){
             String v = graph.substring(6);
             String[] vs = v.split(",");
             for (String v1 : vs) {
-                addCity(v1.trim().charAt(0));
-                addCity(v1.trim().charAt(1));
+                addCity(v1.trim().charAt(0), citis);
+                addCity(v1.trim().charAt(1), citis);
             }
-            cityMat = new int[nCitys][nCitys]; // 邻接矩阵
+            cityList = citis.toArray(new City[citis.size()]);
+            cityMat = new int[nCitys][nCitys];
 
             for (String v1 : vs) {
                 int distance = Integer.parseInt(v1.trim().substring(2));
@@ -54,20 +62,32 @@ public class Graph {
     public char getCity(int i) {
         return cityList[i].getName();
     }
-    private void addEdge(char startCity, char endCity, int distance) {// 有向图，添加边
+    private void addEdge(char startCity, char endCity, int distance) {
         int start = (int) startCity - 'A';
         int end = (int) endCity - 'A';
         cityMat[start][end] = distance;
     }
-    private void addCity(char lab) {
-        if (cityList[lab - 'A'] == null){
+    private void addCity(char lab, List<City> citis) {
+        int index = lab - 'A';
+        try {
+            if (citis.get(index) != null){
+                return;
+            }
+        }catch (IndexOutOfBoundsException e){
             nCitys++;
-            cityList[lab - 'A'] = new City(lab);// 添加点
+            citis.add(index, new City(lab));
         }
     }
+
+    /**
+     * Find all cycle road tin his Graph, by DFS
+     *
+     *@param v form this city(v) to start recursion
+     *
+     */
     private void findCycle(int v)  {
         int j = 0;
-        if((j=trace.indexOf(v))!=-1) { // 还没有元素在里面，index=-1
+        if((j=trace.indexOf(v))!=-1) {
             hasCycle=true;
             StringBuilder sb = new StringBuilder();
             while(j<trace.size())
@@ -81,10 +101,10 @@ public class Graph {
         }
 
 
-        trace.add(v); // 没访问过，加入
+        trace.add(v);
 
         for(int i=0;i<nCitys;i++) {
-            if( v != i  && cityMat[v][i] != 0 ) // 找直达，可以就以它为点递归
+            if( v != i  && cityMat[v][i] != 0 )
               // System.out.println((char) (v+'A')+""+(char)(i+'A'));
                 findCycle(i);
         }
