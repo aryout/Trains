@@ -73,9 +73,6 @@ Output #7: 3
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time: 7.965 s
-[INFO] Finished at: 2018-08-16T21:19:21+08:00
-[INFO] Final Memory: 15M/178M
-[INFO] ------------------------------------------------------------------------
 ```
 
 #### 使用说明
@@ -97,9 +94,15 @@ Windows PowerShell 下
 please type graph data path: 
 ```
 
-此时, 请输入你本机中的测试文件地址.
+此时, 请输入你本机中的测试文件地址.测试文件内容形如：
 
-在题目中的文档中有一套测试用例, 可以在项目根目录中找到;
+```
+Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE6
+Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE5
+Graph: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE4
+```
+题目中含有一套测试用例, 可以在项目根目录中找到;
 ```
 > .\graph.txt
 ```
@@ -123,9 +126,6 @@ Output #10: 7
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time: 14.436 s
-[INFO] Finished at: 2018-08-16T21:21:54+08:00
-[INFO] Final Memory: 9M/155M
-[INFO] ------------------------------------------------------------------------
 ```
 
 #### 目录结构
